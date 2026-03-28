@@ -182,6 +182,14 @@ final class GameSession: ObservableObject {
         store.append(event)
     }
 
+    func updatePlayer(team: HalfCode, battingOrder: Int, name: String, number: Int, position: Position) {
+        if team == .top {
+            awayTeam = updatePlayer(in: awayTeam, battingOrder: battingOrder, name: name, number: number, position: position)
+        } else {
+            homeTeam = updatePlayer(in: homeTeam, battingOrder: battingOrder, name: name, number: number, position: position)
+        }
+    }
+
     func undo() {
         pendingTransition = nil
         _ = store.undo()
@@ -239,5 +247,17 @@ final class GameSession: ObservableObject {
         } else {
             pendingTransition = nil
         }
+    }
+
+    private func updatePlayer(in team: Team, battingOrder: Int, name: String, number: Int, position: Position) -> Team {
+        var updated = team
+        if let index = updated.lineup.firstIndex(where: { $0.battingOrder == battingOrder }) {
+            var slot = updated.lineup[index]
+            slot.player.name = name.trimmingCharacters(in: .whitespacesAndNewlines)
+            slot.player.number = number
+            slot.position = position
+            updated.lineup[index] = slot
+        }
+        return updated
     }
 }
