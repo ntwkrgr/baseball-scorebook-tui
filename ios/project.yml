@@ -1,0 +1,39 @@
+name: ScorebookPad
+options:
+  minimumXcodeGenVersion: 2.45.0
+settings:
+  base:
+    SWIFT_VERSION: 6.0
+targets:
+  ScorebookPad:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: ScorebookPad
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: edu.angelo.state.scorebookpad
+        INFOPLIST_FILE: ScorebookPad/Info.plist
+        TARGETED_DEVICE_FAMILY: 2
+        CODE_SIGN_STYLE: Automatic
+        CURRENT_PROJECT_VERSION: 1
+        MARKETING_VERSION: 0.1.0
+        PRODUCT_NAME: ScorebookPad
+    scheme:
+      gatherCoverageData: false
+      testTargets:
+        - ScorebookPadTests
+  ScorebookPadTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: ScorebookPadTests
+    dependencies:
+      - target: ScorebookPad
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: edu.angelo.state.scorebookpadTests
+        GENERATE_INFOPLIST_FILE: YES
+
