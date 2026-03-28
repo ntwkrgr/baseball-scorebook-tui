@@ -1,10 +1,10 @@
 # baseball-scorebook-tui
 
-A terminal-based baseball scorebook application for live game scoring.
+A browser-based baseball scorebook application for live game scoring.
 
 ## What Is This?
 
-`baseball-scorebook-tui` is a TUI (terminal user interface) application that lets you keep a full baseball scorebook directly in your terminal. It supports live scoring for both the home and away teams, shows a traditional per-at-bat scorecard with diamond diagrams tracking each baserunner's path, and stores completed games as JSON files for later review.
+`baseball-scorebook-tui` is now a local web app that keeps the original scorekeeping engine and JSON save format while moving the interface into the browser. It supports live scoring for both the home and away teams, shows a traditional per-at-bat scorecard with diamond diagrams tracking each baserunner's path, and stores completed games as JSON files for later review.
 
 ## Installation
 
@@ -30,6 +30,8 @@ Or if installed via pip:
 baseball-scorebook
 ```
 
+This starts a local FastAPI server, opens the browser automatically, and serves the built React UI.
+
 ## Features
 
 - **Full scorecard** — 9 lineup rows with diamond cells for each at-bat
@@ -46,6 +48,8 @@ baseball-scorebook
 - **Baserunner events** — stolen bases, caught stealing, wild pitches, passed balls, balks
 - **Half-inning transitions** — summary overlay showing R/H/E/LOB with auto tab-switching
 - **Game-over detection** — regulation end, walk-off, extra innings, and manual end
+- **Mouse + keyboard parity** — every primary action works with shortcuts and clickable controls
+- **Auto-generate lineup** — fills away/home lineup screens with deterministic test data for fast manual testing
 
 ## Keyboard Shortcuts
 
@@ -60,7 +64,7 @@ baseball-scorebook
 | `Ctrl+S` | Game | Save game |
 | `Ctrl+Z` | Game | Undo |
 | `Ctrl+Y` | Game | Redo |
-| `Q` | Anywhere | Quit |
+| `Q` | Game | Return home |
 
 ## Architecture
 
@@ -70,9 +74,9 @@ The app uses an **event sourcing** architecture. The game is stored as an append
 baseball_scorebook/
 ├── models/        # Frozen dataclasses, enums, event types
 ├── engine/        # Event store (undo/redo) + state derivation
-├── widgets/       # Diamond, scorecard, defense, scoreline, totals, game log
-├── screens/       # Home, lineup editor, game, modals, game over
+├── services/      # Shared command helpers + browser snapshot builders
 └── storage/       # JSON serialization/deserialization
+frontend/          # React app, unit tests, Playwright coverage
 ```
 
 ## Technology Stack
@@ -80,8 +84,8 @@ baseball_scorebook/
 | Component | Choice |
 |-----------|--------|
 | Language | Python 3.11+ |
-| TUI Framework | [Textual](https://github.com/Textualize/textual) |
-| Rendering | [Rich](https://github.com/Textualize/rich) |
+| Backend | [FastAPI](https://fastapi.tiangolo.com/) |
+| Frontend | [React](https://react.dev/) + [Vite](https://vite.dev/) |
 | Storage | JSON (stdlib) |
 
 ## Development
@@ -91,7 +95,19 @@ pip install -e ".[dev]"
 pytest
 ```
 
-268 tests covering the engine, models, serialization, and app smoke tests.
+Frontend development:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Current verification:
+
+- `uv run pytest -q`
+- `cd frontend && npm run test:run`
+- `cd frontend && npm run e2e`
 
 ## See Also
 

@@ -103,10 +103,13 @@ class LineupEditorScreen(Screen):
             for i in range(1, _SLOT_COUNT + 1):
                 yield Label(str(i))
                 yield Input(placeholder=f"Player {i} name", id=f"name-{i}")
+                # select_on_focus=False: avoid full selection after Tab — otherwise
+                # each digit replaces the previous instead of appending.
                 yield Input(
                     placeholder="#",
                     id=f"number-{i}",
                     type="integer",
+                    select_on_focus=False,
                 )
                 yield Select(
                     _POSITION_CHOICES,
@@ -212,11 +215,15 @@ class LineupEditorScreen(Screen):
             self.query_one(f"#pos-{i}", Select).value = Select.BLANK
 
     def _start_game(self, home_team: Team) -> None:
-        """Pop the editor and push GameScreen with both completed teams."""
+        """Replace this screen with GameScreen (do not pop then push).
+
+        ``pop_screen`` schedules async teardown; an immediate ``push_screen``
+        can overlap that work and race Header composition (crash on mount).
+        ``switch_screen`` performs one atomic replace of the stack top.
+        """
         from baseball_scorebook.screens.game import GameScreen
 
         away_team = self._away_team
-        self.app.pop_screen()
-        self.app.push_screen(
+        self.app.switch_screen(
             GameScreen(away_team=away_team, home_team=home_team)
         )

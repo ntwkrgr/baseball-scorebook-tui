@@ -5,11 +5,14 @@ build-backend = "hatchling.build"
 [project]
 name = "baseball-scorebook"
 version = "0.1.0"
-description = "A terminal-based baseball scorebook with live game scoring"
+description = "A browser-based baseball scorebook with live game scoring"
 requires-python = ">=3.11"
 dependencies = [
+    "fastapi>=0.116.0",
+    "httpx>=0.28.0",
     "textual>=0.80.0",
     "rich>=13.0.0",
+    "uvicorn>=0.35.0",
 ]
 
 [project.scripts]
