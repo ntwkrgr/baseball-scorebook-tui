@@ -35,8 +35,8 @@ function segClass(state) {
 }
 
 /**
- * Return [glyph2, cssClass] for the home plate position.
- * glyph2 is always 1 character (home plate label is 1 char: ◇/◆/✕).
+ * Return [glyph, cssClass] for the home plate position.
+ * glyph is always 1 character (home plate label is 1 char: ◇/◆/✕).
  */
 function homeMarker(cell) {
   if (cell.finalBase === 'HOME') {
@@ -47,9 +47,9 @@ function homeMarker(cell) {
 }
 
 /**
- * Return [glyph, cssClass] for a non-home base.
- * Always returns 2-character glyph to maintain alignment.
- * Returns null if the runner is not at this base.
+ * Return [glyph, cssClass] for a non-home base, where glyph is always 2
+ * characters to maintain alignment with "1B"/"2B"/"3B" labels.
+ * Returns null if the batter/runner did not end at this base with a scoreable state.
  */
 function baseMarker(cell, base) {
   if (cell.finalBase !== base) return null
