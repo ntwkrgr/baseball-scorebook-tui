@@ -203,8 +203,9 @@ function HomePage() {
         </div>
         <p className="hero-shortcuts">
           Hotkeys during game: <kbd>N</kbd> new at-bat · <kbd>R</kbd> runner event ·
-          <kbd>S</kbd> substitution · <kbd>Ctrl+Z</kbd> undo · <kbd>Ctrl+Y</kbd> redo ·
-          <kbd>L</kbd> toggle log · <kbd>T</kbd> switch tab · <kbd>G</kbd> end game
+          <kbd>S</kbd> substitution · <kbd>Ctrl/Cmd+S</kbd> save · <kbd>Ctrl+Z</kbd> undo ·
+          <kbd>Ctrl+Y</kbd> redo · <kbd>L</kbd> toggle log · <kbd>T</kbd> switch tab ·
+          <kbd>G</kbd> end game
         </p>
       </section>
     </main>

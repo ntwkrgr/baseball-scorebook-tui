@@ -5,9 +5,9 @@
  *
  * Layout (8 lines × 14 chars):
  *       2B
- *      ╱  ╲
- *    3B    1B
- *      ╲  ╱
+ *     ╱   ╲
+ *   3B      1B
+ *     ╲   ╱
  *       ◇
  *   6-3  1B
  *   (annot)
@@ -43,7 +43,7 @@ function homeMarker(cell) {
     if (cell.finalState === 'SCORED') return [MARKER_SCORED, 'base-scored']
     if (cell.finalState === 'OUT') return [MARKER_OUT, 'base-out']
   }
-  return [MARKER_HOME, 'seg-dim']
+  return [MARKER_HOME, 'base-normal']
 }
 
 /**
@@ -71,11 +71,11 @@ function p(text, cls = 'seg-dim') {
 /** Render an empty (no at-bat) diamond — 8 lines of dim ASCII art. */
 function buildEmptyLines() {
   return [
-    [p('      2B      ')],
-    [p('     '), p('╱', 'seg-dim'), p('  '), p('╲', 'seg-dim'), p('     ')],
-    [p('   3B    1B   ')],
-    [p('     '), p('╲', 'seg-dim'), p('  '), p('╱', 'seg-dim'), p('     ')],
-    [p('      ◇       ')],
+    [p('      '), p('2B', 'base-normal'), p('      ')],
+    [p('    '), p('╱', 'seg-dim'), p('   '), p('╲', 'seg-dim'), p('     ')],
+    [p('  '), p('3B', 'base-normal'), p('      '), p('1B', 'base-normal'), p('  ')],
+    [p('    '), p('╲', 'seg-dim'), p('   '), p('╱', 'seg-dim'), p('     ')],
+    [p('      '), p('◇', 'base-normal'), p('       ')],
     [p('              ')],
     [p('              ')],
     [p('              ')],
@@ -128,12 +128,12 @@ function buildFilledLines(cell) {
   return [
     // Line 0:  "      2B      "
     [p('      '), p(g2, c2), p('      ')],
-    // Line 1:  "     ╱  ╲     "
-    [p('     '), p('╱', cls23), p('  '), p('╲', cls12), p('     ')],
-    // Line 2:  "   3B    1B   "
-    [p('   '), p(g3, c3), p('    '), p(g1, c1), p('   ')],
-    // Line 3:  "     ╲  ╱     "
-    [p('     '), p('╲', cls3H), p('  '), p('╱', clsH1), p('     ')],
+    // Line 1:  "    ╱   ╲     "
+    [p('    '), p('╱', cls23), p('   '), p('╲', cls12), p('     ')],
+    // Line 2:  "  3B      1B  "
+    [p('  '), p(g3, c3), p('      '), p(g1, c1), p('  ')],
+    // Line 3:  "    ╲   ╱     "
+    [p('    '), p('╲', cls3H), p('   '), p('╱', clsH1), p('     ')],
     // Line 4:  "      ◇       " (1 char home + 7 spaces = 8 right)
     [p('      '), p(gH, cH), p('       ')],
     // Line 5: result label
