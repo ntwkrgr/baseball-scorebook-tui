@@ -170,24 +170,43 @@ function ToolbarButton({ children, shortcut, ...props }) {
   )
 }
 
+const HERO_ASCII = `
+ ╔══════════════════════════════════════════════════════════════════════╗
+ ║  ⚾  B A S E B A L L   S C O R E B O O K                            ║
+ ║                                                                      ║
+ ║       2B              ─────────────────────────────────────────     ║
+ ║      ╱  ╲             │ #  │ Batter      │ Pos │  1  │  2  │  3  │ ║
+ ║    3B    1B           ├────┼─────────────┼─────┼─────┼─────┼─────┤ ║
+ ║      ╲  ╱             │ 1  │ Player Name │  CF │     │     │     │ ║
+ ║       ◇               │ 2  │ Player Name │  2B │     │     │     │ ║
+ ║                       └────┴─────────────┴─────┴─────┴─────┴─────┘ ║
+ ╚══════════════════════════════════════════════════════════════════════╝`
+
 function HomePage() {
   return (
     <main className="shell home-shell">
       <section className="hero-card">
-        <p className="eyebrow">Live scoring in the browser</p>
+        <pre className="hero-ascii" aria-hidden="true">{HERO_ASCII}</pre>
+        <p className="eyebrow">⚾  Live scoring in the browser</p>
         <h1>Baseball Scorebook</h1>
         <p className="hero-copy">
-          A digital paper scorebook with event-sourced scoring, JSON save files, undo/redo,
+          A digital paper scorebook. Event-sourced scoring, undo/redo, JSON save files,
           keyboard-first control, and full click support.
         </p>
         <div className="hero-actions">
           <Link className="primary-link" to="/new">
-            New Game
+            [ New Game ]
           </Link>
           <Link className="secondary-link" to="/load">
-            Load Saved Game
+            [ Load Saved Game ]
           </Link>
         </div>
+        <p className="hero-shortcuts">
+          Hotkeys during game: <kbd>N</kbd> new at-bat · <kbd>R</kbd> runner event ·
+          <kbd>S</kbd> substitution · <kbd>Ctrl/Cmd+S</kbd> save · <kbd>Ctrl+Z</kbd> undo ·
+          <kbd>Ctrl+Y</kbd> redo · <kbd>L</kbd> toggle log · <kbd>T</kbd> switch tab ·
+          <kbd>G</kbd> end game
+        </p>
       </section>
     </main>
   )
@@ -586,29 +605,29 @@ function GamePage() {
       <main className="game-shell">
         <header className="top-bar">
           <div>
-            <p className="eyebrow">Live Game</p>
+            <p className="eyebrow">⚾  Live Game</p>
             <h1>{snapshot.state.statusLine}</h1>
           </div>
           <div className="top-actions">
-            <ToolbarButton shortcut="N" onClick={() => openAtBatModal()}>
+            <ToolbarButton shortcut="[N]" onClick={() => openAtBatModal()}>
               New At-Bat
             </ToolbarButton>
-            <ToolbarButton shortcut="R" onClick={openRunnerModal}>
-              Runner Event
+            <ToolbarButton shortcut="[R]" onClick={openRunnerModal}>
+              Runner
             </ToolbarButton>
-            <ToolbarButton shortcut="S" onClick={openSubstitutionModal}>
-              Substitution
+            <ToolbarButton shortcut="[S]" onClick={openSubstitutionModal}>
+              Sub
             </ToolbarButton>
-            <ToolbarButton shortcut="Ctrl+S" onClick={() => execute(() => api.saveGame(sessionId), 'Game saved.')}>
+            <ToolbarButton shortcut="[^S]" onClick={() => execute(() => api.saveGame(sessionId), 'Game saved.')}>
               Save
             </ToolbarButton>
-            <ToolbarButton shortcut="Ctrl+Z" onClick={() => execute(() => api.undo(sessionId), 'Undone.')}>
+            <ToolbarButton shortcut="[^Z]" onClick={() => execute(() => api.undo(sessionId), 'Undone.')}>
               Undo
             </ToolbarButton>
-            <ToolbarButton shortcut="Ctrl+Y" onClick={() => execute(() => api.redo(sessionId), 'Redone.')}>
+            <ToolbarButton shortcut="[^Y]" onClick={() => execute(() => api.redo(sessionId), 'Redone.')}>
               Redo
             </ToolbarButton>
-            <ToolbarButton shortcut="G" onClick={() => setShowEndGame(true)}>
+            <ToolbarButton shortcut="[G]" onClick={() => setShowEndGame(true)}>
               End Game
             </ToolbarButton>
           </div>
@@ -622,17 +641,17 @@ function GamePage() {
             className={activeTab === 'away' ? 'tab-button tab-button-active' : 'tab-button'}
             onClick={() => setActiveTab('away')}
           >
-            Away: {snapshot.teams.away.name}
+            [AWAY] {snapshot.teams.away.name}
           </button>
           <button
             type="button"
             className={activeTab === 'home' ? 'tab-button tab-button-active' : 'tab-button'}
             onClick={() => setActiveTab('home')}
           >
-            Home: {snapshot.teams.home.name}
+            [HOME] {snapshot.teams.home.name}
           </button>
           <button type="button" className="tab-button" onClick={() => setShowLog((previous) => !previous)}>
-            {showLog ? 'Hide Log' : 'Show Log'}
+            {showLog ? '[L] Hide Log' : '[L] Show Log'}
           </button>
         </div>
 
